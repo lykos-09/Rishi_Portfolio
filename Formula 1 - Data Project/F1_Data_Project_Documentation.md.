@@ -1,0 +1,176 @@
+Data Analysis Documentation
+
+PROJECT TITLE
+Exploratory Data Analysis of Formula 1 Race Data
+
+OVERVIEW
+1.	Understand the structure and relationships within the datasets, including information on races, drivers, constructors, and various race-related details.
+2.	Ensure the datasets are in a suitable format for analysis by handling missing values, addressing data types, and performing any necessary transformations.
+3.	Calculate summary statistics for relevant columns to provide an overview of key metrics such as mean, median, min, and max.
+4.	Create visualizations to better understand relationships between variables, such as bar charts for the number of races in each country and scatter plots to visualize the relationship between driver standings points and wins.
+5.	Aggregate the race data, such as:
+•	Count the number of races in each country.
+•	Count the number of races each driver participated.
+•	Names of drivers who has won more driver standing.
+6.	 Address specific questions of interest, like identifying the top drivers based on the number of wins and determining which constructor has the highest average points per race.
+7.	Provide comprehensive documentation to summarize the steps taken, share code snippets, and present findings and insights gained during the analysis.
+
+PROJECT SETUP
+The project setup involves using a Jupyter Notebook as the primary development environment, along with Python programming language and Pandas library for data manipulation and analysis. Here's a breakdown of the tools and technologies used:
+1.	Jupyter Notebook: Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations, and narrative text. It's an ideal environment for interactive and exploratory data analysis.
+2.	Python: Python is a high-level programming language widely used for data analysis, machine learning, and scientific computing. Its readability and extensive libraries make it a popular choice for working with datasets.
+3.	Pandas: Pandas is a powerful data manipulation library for Python. It provides data structures for efficiently storing large datasets and tools for working with them. In this project, Pandas is used for loading datasets, cleaning data, and performing various analysis tasks.
+The project is structured in a Jupyter Notebook, allowing for a combination of executable code, visualizations, and explanatory text. The code cells contain Python code snippets that interact with the Pandas library to perform data manipulation and analysis tasks.
+Additionally, external datasets related to Formula 1, such as information about races, drivers, constructors, and race results, are used to explore and derive insights from the data.
+The project's tools and technologies have been chosen for their effectiveness in handling data analysis tasks, providing an interactive environment for code execution, and facilitating the creation of a well-documented and shareable analysis.
+
+LIBRARIES USED
+Pandas
+Matplotlib
+
+DATA SOURCE
+The dataset used in this project originates from Kaggle and is titled "Formula 1 Race Data (1950-2017)”. The dataset comprises multiple CSV files containing information related to Formula 1 races, drivers, constructors, and various race-related statistics spanning the years 1950 to 2017.
+Origin:
+The dataset is available on Kaggle, a platform for data science and machine learning projects. The data is likely curated from official Formula 1 records and other reliable sources, providing a comprehensive and detailed view of Formula 1 statistics over several decades.
+Dataset Names:
+•	races.csv
+•	drivers.csv
+•	constructors.csv
+•	results.csv
+•	circuits.csv
+•	constructorResults.csv
+•	constructorStandings.csv
+•	driverStandings.csv
+•	lapTimes.csv
+•	pitStops.csv
+•	qualifying.csv
+•	status.csv
+
+Relevant Links:
+https://www.kaggle.com/datasets/cjgdev/formula-1-race-data-19502017/ 
+
+DATA CLEANING
+The data cleaning process involves several steps to ensure that the datasets are ready for analysis. The key steps include:
+1.	Handling Missing Values:
+•	Identified missing values in various columns using methods like isnull() and sum().
+•	Employed strategies such as dropping columns or filling missing values with appropriate substitutes.
+•	Example: For columns with a large number of missing values, such as altitude (alt), a decision was made to drop the column.
+2.	Data Types and Encoding:
+•	Checked the data types of each column using dtypes.
+•	Converted data types when necessary, ensuring compatibility with analysis tools.
+•	Applied encoding techniques (e.g., 'latin-1') to address encoding-related issues during data loading.
+3.	Handling Duplicate Entries:
+•	Checked for and removed any duplicate entries in the datasets.
+•	Ensured uniqueness in identifiers such as raceId, driverId, and constructorId.
+4.	Handling Encoding Issues:
+•	Encountered and resolved UnicodeDecodeError by specifying the appropriate encoding during data loading.
+5.	Loading and Reading Datasets:
+•	Used Pandas library for reading CSV files and creating DataFrames.
+•	Specified file paths and resolved issues related to file accessibility.
+6.	Naming Conventions and Consistency:
+•	Ensured consistency in naming conventions across datasets.
+•	Renamed columns for clarity and consistency in analysis.
+7.	Exploring and Understanding the Data:
+•	Utilized methods like head(), info(), and describe() to gain an understanding of the structure and content of each dataset.
+•	Analysed the summary statistics of relevant columns.
+8.	Handling Unnecessary Columns:
+•	Dropped unnecessary columns that do not contribute to the analysis.
+•	Example: Columns with excessive missing values or redundant information.
+
+SAMPLE CODE
+# Sample code for data cleaning
+# Importing necessary libraries
+import pandas as pd
+# Load the dataset
+dataset_path = 'R:/Jupyter/F1- Dataset'
+circuits = pd.read_csv(dataset_path + 'circuits.csv', encoding='latin-1')
+# Handling missing values
+circuits_cleaned = circuits.dropna(axis=1)  # Drop columns with missing values
+circuits_cleaned['name'] = circuits_cleaned['name'].str.upper()  # Convert 'name' column to uppercase
+# Handling duplicate entries
+circuits_cleaned = circuits_cleaned.drop_duplicates()
+# Exploring and understanding the data
+print(circuits_cleaned.head())  # Display the first few rows of the cleaned dataset
+print(circuits_cleaned.info())  # Display information about the dataset
+print(circuits_cleaned.describe())  # Display summary statistics
+
+DATA EXPLORATION
+This sample code provides a basic overview of the datasets, including information on columns, data types, and the first few rows:
+# Importing necessary libraries
+import pandas as pd
+# Load the datasets
+dataset_path = 'R:/Jupyter/F1- Dataset'
+circuits = pd.read_csv(dataset_path + 'circuits.csv', encoding='latin-1')
+constructor_results = pd.read_csv(dataset_path + 'constructorResults.csv', encoding='latin-1')
+# Load other datasets as needed...
+# Display basic information about each dataset
+print("Circuits Dataset:")
+print(circuits.info())
+print("\nConstructor Results Dataset:")
+print(constructor_results.info())
+# Display a few rows of each dataset
+print("\nCircuits Sample:")
+print(circuits.head())
+print("\nConstructor Results Sample:")
+print(constructor_results.head())
+
+Depending on the nature of the data, you may want to perform more detailed exploratory data analysis (EDA) and visualizations to gain insights into the relationships within the datasets.
+
+VISUALIZATIONS
+Create visualizations to explore relationships between variables.
+Bar Chart: Number of Races in Each Country
+python code:
+#import necessary library 
+!pip install matplotlib
+races_per_country = races['name'].value_counts()
+plt.figure(figsize=(15, 6))
+races_per_country.plot(kind='bar', color='skyblue')
+plt.title('Number of Races in Each Country')
+plt.xlabel('Country')
+plt.ylabel('Number of Races')
+plt.xticks(rotation=45, ha='right')  # Rotate x-axis labels for better readability
+plt.tight_layout()  # Adjust layout to prevent clipping of labels
+plt.show()Scatter Plot: Driver Standings Points vs. Wins
+
+
+AGGREGATION
+Aggregate data to derive meaningful metrics.
+Example Aggregation
+•	Top drivers with most wins.
+Python code:
+#import necessary libraries
+#import datasets.
+# Merge driverStandings with drivers to get driver names
+merged_driver_standings = pd.merge(driver_standings, drivers, on='driverId')
+# Sort the DataFrame by the number of wins in descending order
+sorted_driver_standings = merged_driver_standings.sort_values(by='wins', ascending=False)
+# Display the top drivers with their names and number of wins
+top_drivers = sorted_driver_standings[['forename', 'surname', 'wins']].head(10)
+# Reset the index to remove the default index column
+top_drivers.reset_index(drop=True, inplace=True)
+print(top_drivers)
+•	Total points scored by each constructor.
+•	Race counts for the drivers.
+
+INTERESTING QUESTIONS
+Present and answer interesting questions based on the data.
+•	Who are the top drivers based on the number of wins?
+•	Which constructor has the highest average points per race?
+
+CONCLUSION
+In this data analysis project focused on Formula 1 race data, we went through several key steps, including data cleaning, exploration, and analysis. Here are some key findings and insights:
+Data Cleaning: Handled missing values, corrected data types, and performed necessary encoding adjustments.
+Loaded and explored multiple datasets related to Formula 1 races.
+
+Data Exploration: Explored the structure of the datasets, including information about races, drivers, constructors, and results.
+Checked for missing values, outliers, and inconsistencies in the data.
+Aggregated data to derive meaningful metrics, such as the average lap time for each race and the total points scored by each constructor.
+Analysis: Identified the top drivers based on the number of wins.
+Explored the relationship between driver standings points and wins through visualizations.
+Visualization: Created visualizations, including a bar chart depicting the number of races in each country and a scatter plot showing the relationship between driver standings points and wins.
+This project serves as a foundation for understanding the complexities of Formula 1 race data and can be expanded upon for more in-depth analyses in future projects.
+
+FUTURE WORK
+Additional analyses and visualizations can be performed based on specific questions and interests.
+Further exploration of the dataset, including advanced statistical analyses and machine learning models, can provide deeper insights.
+
